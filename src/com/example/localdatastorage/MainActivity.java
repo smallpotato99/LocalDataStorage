@@ -3,6 +3,7 @@ package com.example.localdatastorage;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -16,6 +17,8 @@ public class MainActivity extends Activity {
 	public final static String VIEWIMAGES="pref_viewimages";
 	
 	private SharedPreferences settings;
+	
+	private OnSharedPreferenceChangeListener listener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,17 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main2);
 		
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		listener = new OnSharedPreferenceChangeListener() {
+
+			@Override
+			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+					String key) {
+				MainActivity.this.refreshDisplay(null);
+			}			
+		};
+		refreshDisplay(null);
+		settings.registerOnSharedPreferenceChangeListener(listener);
 	}
 
 	@Override

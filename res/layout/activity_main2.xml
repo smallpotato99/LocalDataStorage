@@ -14,13 +14,6 @@
             android:layout_height="wrap_content"
             android:onClick="setPreference"
             android:text="@string/btn_setprefs" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="refreshDisplay"
-            android:text="@string/btn_showprefs" />
     </LinearLayout>
 
     <TextView
