@@ -1,6 +1,11 @@
 package com.example.localdatastorage;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -85,5 +90,29 @@ public class MainActivity extends Activity {
 		String prefValue = settings.getString(USERNAME, "Not found");
 		UIHelper.displayText(this, R.id.textView1, prefValue);
 		UIHelper.setCBChecked(this, R.id.checkBox1, settings.getBoolean(VIEWIMAGES, false));
+	}
+	
+	public void createFile(View v) throws IOException {
+		String text = UIHelper.getText(this, R.id.editText1);
+		
+		FileOutputStream fos = openFileOutput("myfile.txt", MODE_PRIVATE);
+		fos.write(text.getBytes());
+		fos.close();
+		
+		UIHelper.displayText(this, R.id.textView1, "File written to disk");
+	}
+	
+	public void readFile(View v) throws IOException {
+		FileInputStream fis = openFileInput("myfile.txt");
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		StringBuffer b = new StringBuffer();
+		while (bis.available() != 0) {
+			char c = (char) bis.read();
+			b.append(c);
+		}
+		
+		UIHelper.displayText(this, R.id.textView1, b.toString());
+		bis.close();
+		fis.close();
 	}
 }
