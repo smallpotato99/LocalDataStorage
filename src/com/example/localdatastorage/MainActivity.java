@@ -1,5 +1,7 @@
 package com.example.localdatastorage;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +25,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main2);
+		setContentView(R.layout.activity_intfile);
 		
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		
@@ -35,8 +37,12 @@ public class MainActivity extends Activity {
 				MainActivity.this.refreshDisplay(null);
 			}			
 		};
-		refreshDisplay(null);
+//		refreshDisplay(null); // Show preferences settings on preflisten example
 		settings.registerOnSharedPreferenceChangeListener(listener);
+		
+		File f = getFilesDir();
+		String path = f.getAbsolutePath();
+		UIHelper.displayText(this, R.id.textView1, path);
 	}
 
 	@Override

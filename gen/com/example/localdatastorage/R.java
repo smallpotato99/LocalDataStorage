@@ -1082,7 +1082,7 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020058;
     }
     public static final class id {
-        public static final int LinearLayout1=0x7f0a003c;
+        public static final int LinearLayout1=0x7f0a0040;
         public static final int action_bar=0x7f0a001c;
         public static final int action_bar_activity_content=0x7f0a0001;
         public static final int action_bar_container=0x7f0a001b;
@@ -1107,7 +1107,7 @@ containing a value of this type.
         public static final int dialog=0x7f0a0014;
         public static final int disableHome=0x7f0a0009;
         public static final int dropdown=0x7f0a0015;
-        public static final int editText1=0x7f0a003d;
+        public static final int editText1=0x7f0a003c;
         public static final int edit_query=0x7f0a0030;
         public static final int end=0x7f0a0017;
         public static final int expand_activities_button=0x7f0a0026;
@@ -1143,7 +1143,7 @@ containing a value of this type.
         public static final int split_action_bar=0x7f0a001e;
         public static final int submit_area=0x7f0a0039;
         public static final int tabMode=0x7f0a0008;
-        public static final int textView1=0x7f0a0040;
+        public static final int textView1=0x7f0a003d;
         public static final int title=0x7f0a002b;
         public static final int top_action_bar=0x7f0a0020;
         public static final int up=0x7f0a0021;
@@ -1200,9 +1200,10 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
         public static final int abc_simple_decor=0x7f030017;
-        public static final int activity_main=0x7f030018;
-        public static final int activity_main2=0x7f030019;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001a;
+        public static final int activity_intfile=0x7f030018;
+        public static final int activity_main=0x7f030019;
+        public static final int activity_main2=0x7f03001a;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
     }
     public static final class menu {
         public static final int main=0x7f0d0000;
@@ -1250,11 +1251,13 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000b;
         public static final int action_settings=0x7f0b000f;
         public static final int app_name=0x7f0b000d;
-        public static final int btn_setprefs=0x7f0b0011;
-        public static final int btn_showprefs=0x7f0b0012;
+        public static final int btn_createfile=0x7f0b0014;
+        public static final int btn_readfile=0x7f0b0015;
+        public static final int btn_setprefs=0x7f0b0012;
+        public static final int btn_showprefs=0x7f0b0013;
         public static final int hello_world=0x7f0b000e;
         public static final int label_username=0x7f0b0010;
-        public static final int label_viewimages=0x7f0b0013;
+        public static final int label_viewimages=0x7f0b0011;
     }
     public static final class style {
         /** 
