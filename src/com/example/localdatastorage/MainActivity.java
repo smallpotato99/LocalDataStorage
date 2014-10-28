@@ -3,9 +3,12 @@ package com.example.localdatastorage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +33,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_intfile);
+		setContentView(R.layout.activity_json);
 		
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		
@@ -92,7 +95,8 @@ public class MainActivity extends Activity {
 		UIHelper.setCBChecked(this, R.id.checkBox1, settings.getBoolean(VIEWIMAGES, false));
 	}
 	
-	public void createFile(View v) throws IOException {
+	public void createFile(View v) throws IOException, JSONException {
+		/* Codes for internal settings file
 		String text = UIHelper.getText(this, R.id.editText1);
 		
 		FileOutputStream fos = openFileOutput("myfile.txt", MODE_PRIVATE);
@@ -100,9 +104,39 @@ public class MainActivity extends Activity {
 		fos.close();
 		
 		UIHelper.displayText(this, R.id.textView1, "File written to disk");
+		*/
+		
+		// json file
+		JSONArray data = new JSONArray();
+		JSONObject tour;
+		
+		tour = new JSONObject();
+		tour.put("tour", "Salton Sea");
+		tour.put("price", 900);
+		data.put(tour);
+		
+		tour = new JSONObject();
+		tour.put("tour", "Death Valley");
+		tour.put("price", 600);
+		data.put(tour);
+		
+		tour = new JSONObject();
+		tour.put("tour", "San Francisco");
+		tour.put("price", 1200);
+		data.put(tour);
+		
+		String text = data.toString();
+		
+		FileOutputStream fos = openFileOutput("tours", MODE_PRIVATE);
+		fos.write(text.getBytes());
+		fos.close();
+		
+		UIHelper.displayText(this, R.id.textView1, "File written to disk:\n" + data.toString());
+		
 	}
 	
-	public void readFile(View v) throws IOException {
+	public void readFile(View v) throws IOException, JSONException {
+		/* Codes for internal settings file
 		FileInputStream fis = openFileInput("myfile.txt");
 		BufferedInputStream bis = new BufferedInputStream(fis);
 		StringBuffer b = new StringBuffer();
@@ -114,5 +148,27 @@ public class MainActivity extends Activity {
 		UIHelper.displayText(this, R.id.textView1, b.toString());
 		bis.close();
 		fis.close();
+		*/
+		
+		//json file
+		FileInputStream fis = openFileInput("tours");
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		StringBuffer b = new StringBuffer();
+		while (bis.available() != 0) {
+			char c = (char) bis.read();
+			b.append(c);
+		}
+		bis.close();
+		fis.close();
+		
+		JSONArray data = new JSONArray(b.toString());
+		
+		StringBuffer toursBuffer = new StringBuffer();		
+		for (int i = 0; i < data.length(); i++) {
+			String tour = data.getJSONObject(i).getString("tour");
+			toursBuffer.append(tour + "\n");
+		}
+		
+		UIHelper.displayText(this, R.id.textView1, toursBuffer.toString());
 	}
 }
