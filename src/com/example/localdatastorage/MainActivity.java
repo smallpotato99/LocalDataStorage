@@ -5,12 +5,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -20,8 +21,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ListActivity {
 
 	public final static String LOGTAG="EXPLORECA";
 	public final static String USERNAME="pref_username";
@@ -37,7 +39,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_json);
+		setContentView(R.layout.activity_xmlpull);
 		
 		settings = PreferenceManager.getDefaultSharedPreferences(this);
 		
@@ -52,11 +54,11 @@ public class MainActivity extends Activity {
 //		refreshDisplay(null); // Show preferences settings on preflisten example
 		settings.registerOnSharedPreferenceChangeListener(listener);
 		
-		File extDir = getExternalFilesDir(null);
-		String path = extDir.getAbsolutePath();
-		UIHelper.displayText(this, R.id.textView1, path);
+		ToursPullParser parser = new ToursPullParser();
+		List<Tour> tours = parser.parseXML(this);
 		
-		file = new File(extDir, FILENAME);
+		ArrayAdapter<Tour> adapter = new ArrayAdapter<Tour>(this,android.R.layout.simple_list_item_1, tours);
+		setListAdapter(adapter);
 	}
 
 	@Override
