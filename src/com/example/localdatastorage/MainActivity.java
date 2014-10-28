@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
@@ -29,6 +30,9 @@ public class MainActivity extends Activity {
 	private SharedPreferences settings;
 	
 	private OnSharedPreferenceChangeListener listener;
+	
+	private File file;
+	private static final String FILENAME = "jsondata";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +52,11 @@ public class MainActivity extends Activity {
 //		refreshDisplay(null); // Show preferences settings on preflisten example
 		settings.registerOnSharedPreferenceChangeListener(listener);
 		
-		File f = getFilesDir();
-		String path = f.getAbsolutePath();
+		File extDir = getExternalFilesDir(null);
+		String path = extDir.getAbsolutePath();
 		UIHelper.displayText(this, R.id.textView1, path);
+		
+		file = new File(extDir, FILENAME);
 	}
 
 	@Override
@@ -96,17 +102,23 @@ public class MainActivity extends Activity {
 	}
 	
 	public void createFile(View v) throws IOException, JSONException {
-		/* Codes for internal settings file
-		String text = UIHelper.getText(this, R.id.editText1);
 		
-		FileOutputStream fos = openFileOutput("myfile.txt", MODE_PRIVATE);
+		if (!checkExternalStorage()) {
+			return;
+		}
+		
+		JSONArray data = getNewJSONData();
+		
+		String text = data.toString();
+		
+		FileOutputStream fos = new FileOutputStream(file);
 		fos.write(text.getBytes());
 		fos.close();
 		
-		UIHelper.displayText(this, R.id.textView1, "File written to disk");
-		*/
-		
-		// json file
+		UIHelper.displayText(this, R.id.textView1, "File written to disk:\n" + data.toString());		
+	}
+
+	private JSONArray getNewJSONData() throws JSONException {
 		JSONArray data = new JSONArray();
 		JSONObject tour;
 		
@@ -124,15 +136,21 @@ public class MainActivity extends Activity {
 		tour.put("tour", "San Francisco");
 		tour.put("price", 1200);
 		data.put(tour);
-		
-		String text = data.toString();
-		
-		FileOutputStream fos = openFileOutput("tours", MODE_PRIVATE);
-		fos.write(text.getBytes());
-		fos.close();
-		
-		UIHelper.displayText(this, R.id.textView1, "File written to disk:\n" + data.toString());
-		
+		return data;
+	}
+	
+	public boolean checkExternalStorage() {
+		String state = Environment.getExternalStorageState();
+		if (state.equals(Environment.MEDIA_MOUNTED)) {
+			return true;
+		}
+		else if (state.equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
+			UIHelper.displayText(this, R.id.textView1, "External storage is read-only");
+		}
+		else {
+			UIHelper.displayText(this, R.id.textView1, "External storage is unavailable");
+		}
+		return false;
 	}
 	
 	public void readFile(View v) throws IOException, JSONException {
@@ -151,7 +169,7 @@ public class MainActivity extends Activity {
 		*/
 		
 		//json file
-		FileInputStream fis = openFileInput("tours");
+		FileInputStream fis = new FileInputStream(file);
 		BufferedInputStream bis = new BufferedInputStream(fis);
 		StringBuffer b = new StringBuffer();
 		while (bis.available() != 0) {
