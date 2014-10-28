@@ -54,7 +54,8 @@ public class MainActivity extends ListActivity {
 //		refreshDisplay(null); // Show preferences settings on preflisten example
 		settings.registerOnSharedPreferenceChangeListener(listener);
 		
-		ToursPullParser parser = new ToursPullParser();
+//		ToursPullParser parser = new ToursPullParser();
+		ToursJDOMParser parser = new ToursJDOMParser();
 		List<Tour> tours = parser.parseXML(this);
 		
 		ArrayAdapter<Tour> adapter = new ArrayAdapter<Tour>(this,android.R.layout.simple_list_item_1, tours);
